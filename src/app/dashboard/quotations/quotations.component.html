@@ -1,0 +1,737 @@
+
+<!-- <div class="col-md-8" id="htmlData">
+  <table class="table table-bordered">
+      <tr class="table-primary">
+        <th>Glasspecificatie</th>
+        <th>Filmtype </th>
+        <th>Number</th>
+        <th>W</th>
+        <th></th>
+        <th>H</th>
+        <th></th>
+        <th>Options</th>
+        <th>Oppervlakte</th>
+      </tr>
+      <tr *ngFor="let side of sidesTables; let i=index">
+          <th>{{side.title}}</th>
+          <th>{{side.title}}</th>
+          <th>{{side.title}}</th>
+          <th>{{side.title}}</th>
+          <th>{{side.title}}</th>
+          <th>{{side.title}}</th>
+          <th>{{side.title}}</th>
+          <th>{{side.title}}</th>
+          <th>{{side.title}}</th>
+      </tr>
+  </table>
+</div> -->
+
+
+<!-- <div id="test1">
+  <table id="calculation" class="tablePrint" >
+      <tr class="mainRow">
+          <th style="width: 10%; margin-left: 20px;">Glasspecificatie</th>
+          <th>Filmtype </th>
+          <th>Number</th>
+          <th>W</th>
+          <th></th>
+          <th>H</th>
+          <th></th>
+          <th>Options</th>
+          <th>Oppervlakte</th>
+      </tr>
+      <span *ngFor="let side of sidesTables; let i=index">
+          <tr style="width: 100%;">
+            <th>{{side.title}}</th>
+            <th>{{side.title}}</th>
+            <th>{{side.title}}</th>
+            <th>{{side.title}}</th>
+            <th>{{side.title}}</th>
+            <th>{{side.title}}</th>
+            <th>{{side.title}}</th>
+            <th>{{side.title}}</th>
+            <th>{{side.title}}</th>
+          </tr>
+          <span>
+              <tr *ngFor="let row of side.rowData; let j=index">
+                  <td>{{row.classification}}</td>
+                  <td>{{row.Filmtype}}</td>
+                  <td style="text-align: center;">{{row.Number}}</td>
+                  <td style="text-align: center;">{{row.W}}</td>
+                  <td style="text-align: center;">x</td>
+                  <td style="text-align: start;">{{row.H}}</td>
+                  <td style="text-align: center;">{{row.Options}}</td>
+                  <td style="text-align: center;">=</td>
+                  <td style="text-align: end;">{{row.Oppervlakte}}</td>
+      
+              </tr>
+          </span>
+      </span>
+      <tr>
+          <th style="text-align: start;background: #e26c0a;">Glasspecificatie</th>
+          <th style="text-align: start;background: #e26c0a;">Filmtype </th>
+          <th style="background: #e26c0a;">Number</th>
+          <th style="background: #e26c0a;">W</th>
+          <th style="background: #e26c0a;width: 10%;"></th>
+          <th style="text-align: start;background: #e26c0a;">H</th>
+          <th style="background: #e26c0a;"></th>
+          <th style="background: #e26c0a;"></th>
+          <th style="text-align: end;background: #e26c0a;">Oppervlakte</th>
+      </tr>
+  </table>
+</div> -->
+
+
+<div id="pdfExport" class="TittleRow" style="width: 100%; height: 100%;">
+  <!-- <div id="pdfExport">
+    <h2>MY NAE IS ALI JAWAD</h2>
+  </div> -->
+  <div class="">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group w-75 mb-3">
+          <label for="customerName mb-3">Customer Name</label>
+            
+            <input [(ngModel)]="customerName" type="text" name="customerName" class="form-control col-md-12" 
+            id="customerName" [disabled]="disableCustomer" /> 
+          
+        </div>
+        <button class="btn btn-outline-success mx-2" *ngIf="step == 0" 
+            (click)="addCustomer()">Add Customer</button>
+        <!-- <button *ngIf="step == 0"></button> -->
+        
+      </div>
+      
+        <div class="btn-group mb-3" id="testing"  *ngIf="step>0">
+          <button (click)="steps($event, 1)" [ngClass]="step == 1 ? 'btn_add_option' : 'btn-outline-secondary'"
+            class="btn">Calculation</button>
+          <button (click)="steps($event, 2)" [ngClass]="step == 2 ? 'btn_add_option' : 'btn-outline-secondary'"
+            class="btn btn-outline-secondary ">Price</button>
+          <!-- <button [routerLink]="['/dashboard/quotations/roi']" routerLinkActive="activeMenu" 
+              [routerLinkActiveOptions]="{exact: true}" [ngClass]="step == 3 ? 'btn-danger' : 'btn-primary'" 
+              class="btn btn-primary mx-2" >ROI</button> -->
+          <button (click)="steps($event, 3)" [ngClass]="step == 3 ? 'btn_add_option' : 'btn-outline-secondary'"
+            class="btn btn-outline-secondary">ROI</button>
+          <button (click)="steps($event, 4)" [ngClass]="step == 4 ? 'btn_add_option' : 'btn-outline-secondary'"
+            class="btn btn-outline-secondary">ROI Result</button>
+          <button (click)="steps($event, 5)" [ngClass]="step == 5 ? 'btn_add_option' : 'btn-outline-secondary'"
+            class="btn btn-outline-secondary">EIA</button>
+        </div>
+        <div class="col">
+  
+          <form ngForm *ngIf="step>0">
+            <!-- (ngSubmit)="submit()" -->
+  
+            <div class="modal fade" id="warnModal" *ngIf="showAlert">
+              <div class="modal-dialog">
+                <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">{{alertMessage}}</h4>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <!-- <button type="submit" (click)="delete()" data-dismiss="modal" class="btn margin btn-success"
+                >YES</button> -->
+                <button  class="btn btn-danger" (click)="dismissModal()" data-dismiss="modal">GOT IT!</button>
+              </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="step-1 mb-3" *ngIf="step == 1" id="test">
+              <div class="mb-3">
+                <h2 class="step_heading">Calculations:</h2>
+              </div>
+              <div class="container p-0 mb-3">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group w-75">
+                      <label for="minVal mb-2">Min. oppervlakte ruit</label>
+                      <input type="number" [(ngModel)]="minOpperlakte" name="minOpperlakte" 
+                      class="form-control" id="minVal" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="">
+  
+                      <div class="form-group">
+                        <label class="mb-2 sub_heading">Select the desire Sides for quotation</label>
+                        <br>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" [checked]="value[0]" (change)="checkboxChecked($event,'East')" type="checkbox"
+                            id="east" value="east" />
+                          <label class="form-check-label" for="east">East</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" [checked]="value[2]" (change)="checkboxChecked($event, 'North')" type="checkbox"
+                            id="north" value="north" />
+                          <label class="form-check-label" for="north">North</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" [checked]="value[1]" (change)="checkboxChecked($event , 'West')" type="checkbox"
+                            id="west" value="west" />
+                          <label class="form-check-label" for="west">West</label>
+                        </div>
+  
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" [checked]="value[3]" (change)="checkboxChecked($event, 'South')" type="checkbox"
+                            id="south" value="south" />
+                          <label class="form-check-label" for="south">South</label>
+                        </div>
+                      </div>
+  
+                    </div>
+                  </div>
+  
+                </div>
+  
+              </div>
+  
+  
+  
+              <div class="calculationTable ">
+  
+                <div *ngFor="let sides of sidesTables; let i=index">
+                  <div class="modal fade" id="addBulkEntries" tabindex="-1" role="dialog"
+                    aria-labelledby="addBulkEntriesModalLabel" aria-hidden="true" *ngIf="sides.isShowHide && sides.title == title ">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="addBulkEntriesModalLabel">{{title}}</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <!-- <div class="modal-body">
+                          <form #form="ngForm">
+                            <div class="form-group">
+                              <label>classification</label>
+                              <input class="form-control" [(ngModel)]="classification" name="classification" />
+                            </div>
+                          </form>
+  
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            (click)="addbulkEntries(i)">Save changes</button>
+                        </div> -->
+  
+                        <div class="modal-body">
+                          <form [formGroup]="calculationForm">
+                            <div class="form-group mb-3">
+                              <!-- <label for="classification mb-2">classification</label> -->
+                              <input type="text" class="form-control" formControlName="classification" id="classification"
+                                placeholder="Classification"/>
+                                <div *ngIf="calculationForm.controls['classification'].errors?.required &&
+                                calculationForm.controls['classification'].touched" class="required"> Classification Required</div>
+  
+                            </div>
+                            <div class="form-group mb-3">
+                              <!-- <label for="filmType mb-1">filmType</label> -->
+                              <input type="text" class="form-control" formControlName="filmType" id="filmType"
+                                placeholder="FilmType" />
+                                <div *ngIf="calculationForm.controls['filmType'].errors?.required &&
+                                calculationForm.controls['filmType'].touched" class="required">FilmType Required</div>
+                            </div>
+                            <div class="row">
+                              <div class="form-group mb-3 col-sm-6">
+                                <!-- <label for="height mb-1">height</label> -->
+                                <input type="number" class="form-control" formControlName="height" id="height"
+                                  placeholder="Height" />
+                                  <div *ngIf="calculationForm.controls['height'].errors?.required &&
+                                calculationForm.controls['height'].touched" class="required">Height Required</div>
+                              </div>
+                              <div class="form-group mb-3 col-sm-6">
+                                <!-- <label for="weight mb-1">weight</label> -->
+                                <input type="number" class="form-control" formControlName="weight" id="weight"
+                                  placeholder="Weight" />
+                                  <div *ngIf="calculationForm.controls['weight'].errors?.required &&
+                                calculationForm.controls['weight'].touched" class="required">Weight Required</div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="form-group mb-3 col-sm-6">
+                                <!-- <label for="number mb-1">number</label> -->
+                                <input type="number" class="form-control" formControlName="number" id="number"
+                                  placeholder="Number" />
+                                  <div *ngIf="calculationForm.controls['number'].errors?.required &&
+                                calculationForm.controls['number'].touched" class="required">Number Required</div>
+                              </div>
+                              <!-- <div class="form-group mb-3 col-sm-6">
+                                <input type="text" class="form-control" formControlName="option" id="option"
+                                  placeholder="Options" />
+                              </div> -->
+                              <div class="form-group mb-3 col-sm-6" *ngIf="!singleEntry">
+                                <input type="number" class="form-control" formControlName="totalEntries" 
+                                id="totalEntries" placeholder="Total Entries"/>
+                                <div *ngIf="calculationForm.controls['totalEntries'].errors?.required &&
+                                calculationForm.controls['totalEntries'].touched" class="required">Required</div>
+                              </div>
+                            </div>
+                            
+  
+                            <div class="modal-footer">
+                              <button type="submit" (click)="bulkInsert(sides, i)" data-dismiss="modal"
+                                class="btn btn-success" data-toggle="modal" data-target="#warnModal"
+                                >Save</button>
+                                <!-- [disabled]="!calculationForm.valid" -->
+                              <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                          </form>
+                        </div>
+  
+  
+  
+                      </div>
+                    </div>
+                  </div>
+                  <div class="calcTableWrapper mb-3" *ngIf="sides.isShowHide">
+                    <div class="mb-3">
+                      <!-- <button class="btn btn-sm btn-outline-primary" (click)="addItems(i)">Add single Entery</button> -->
+                      <button class="btn btn-sm btn-outline-primary mx-3" type="button" data-toggle="modal"
+                        data-target="#addBulkEntries" (click)="singleDataEntry(sides,i)">Add Single Entry</button>
+                        <button class="btn btn-sm btn-outline-primary mx-3" type="bustton" data-toggle="modal"
+                        data-target="#addBulkEntries" (click)="setTitle(i)">Add Bulk Data</button>
+                      <button class="btn btn-sm btn-outline-danger" (click)="onRemoveSelected(i, sides.title)">Remove Selected</button>
+                    </div>
+                    <!-- <p *ngIf="sides.rowData.length>1">dummy{{sides.rowData[1].classification}}</p> -->
+                    <div style="margin-bottom: 5px; display: flex; justify-content: space-between;">
+                      <div class="grid-wrapper w-100" style="min-height: 200px;">
+                        <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id={{sides.id}}
+                          class="ag-theme-alpine" [rowData]="sides.rowData" [columnDefs]=sides.columnDefs
+                          [defaultColDef]="sides.CalDefaultCol" [pinnedBottomRowData]="sides.pinnedBottomRowData"
+                          (gridReady)="calculateGrid($event, i)" [rowSelection]="rowSelection" 
+                           [animateRows]="true">
+                        </ag-grid-angular>
+                      </div>
+                    </div>
+                    <hr />
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+            <div class="step-2 mb-3" *ngIf="step == 2">
+              <div class="mb-3">
+                <h3 class="step_heading">Price:</h3>
+              </div>
+              <div class="mb-3">
+                <h6 class="mb-3">Options</h6>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" name="eastOption" type="checkbox" [(ngModel)]="isEastChecked"
+                    id="eastOPtion" />
+                  <label class="form-check-label" for="eastOPtion">East</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="northOption" name="northOption"
+                    [(ngModel)]="isNorthChecked" />
+                  <label class="form-check-label" for="northOption">North</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="westOption" name="westOption"
+                    [(ngModel)]="isWestChecked" />
+                  <label class="form-check-label" for="westOption">West</label>
+                </div>
+  
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" id="southOption" name="southOption"
+                    [(ngModel)]="isSouthChecked" />
+                  <label class="form-check-label" for="southOption">South</label>
+                </div>
+                <button class="btn btn-outline-info" (click)="checkOptionVal()">
+                  Add New Option
+                </button>
+              </div>
+              <div class="priceTable" *ngFor="let data of optionsTable;let j=index">
+                <button class="btn btn-outline-info layout-button" (click)="deleteOption(j)">
+                  Delete Option
+                </button>
+                <div class="example-wrapper">
+                  <!-- <div style=" display: flexflex"> -->
+                    
+                  <!-- </div> -->
+                  <div style="margin-bottom: 5px; display: flexflex; justify-content: space-between;">
+                    <div class="grid-wrapper w-100" style="min-height: 200px;">
+                      <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-alpine"
+                        [rowData]="data.rowData" [columnDefs]="data.columnDefs" [defaultColDef]="priceDefaultCol"
+                        (gridReady)="onPriceGridReady($event, j)" [domLayout]="autoHeight"
+                        (cellClicked)="onCellClicked($event)"
+                        (cellKeyPress)="onCellKeyPress($event, j)" 
+                        (cellValueChanged)="onCellValueChanged($event, j)">
+                      </ag-grid-angular>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group" style="margin-bottom: 5px;" *ngIf="selectedTitle != ''">
+                <label for="website">Options:</label>
+                <form [formGroup]="titleSelect">
+                  <select formControlName="title" class="form-control option" style="width: 50%;"
+                  (change)="titleChange($event)" (click)="titleCheckClicked()" required>
+                  <option *ngIf="showSelectedTitle" value="">{{selectedTitle}}</option>
+                  <option *ngFor="let title of titleArray">
+                    <span>{{title.title}}</span>
+                  </option>
+                </select>
+                  <div *ngIf="titleSelect.controls['title'].errors?.required &&
+                  titleSelect.controls['title'].touched" class="required">Option Required</div>
+                </form>
+                
+                <label for="website" style="margin-top: 10px;">Signature Pad:</label>
+              </div>
+              <div class="form-group" style="margin-bottom: 5px;" *ngIf="selectedTitle == ''">
+                <label for="website">Options:</label>
+                <form [formGroup]="titleSelect">
+                  <select formControlName="title" class="form-control option" style="width: 50%;"
+                  (change)="titleChange($event)" required>
+                  <option value="">Select Option</option>
+                  <option *ngFor="let title of titleArray">
+                    <span>{{title.title}}</span>
+                  </option>
+                </select>
+                  <div *ngIf="titleSelect.controls['title'].errors?.required &&
+                  titleSelect.controls['title'].touched" class="required">Option Required</div>
+                </form>
+                
+                <label for="website" style="margin-top: 10px;">Signature Pad:</label>
+              </div>
+                <span *ngIf="!signatureImage">
+                  <signature-pad [options]="signaturePadOptions" (onBeginEvent)="drawStart()" format="base64"
+                  (onEndEvent)="drawComplete($event)" id="signatureCanvas"></signature-pad>
+                </span>
+                <!-- <canvas #sPad width="600" height="300" style="margin-top: 1;"></canvas> -->
+              <!-- <ng-signature-pad
+                doneButtonText="Show Image"
+                format="base64"
+                (done)="showImage($event)">
+              </ng-signature-pad> -->
+              <img [src]="dataURL" *ngIf="signatureImage" />
+            </div>
+  
+  
+  
+            <!-- THIS HTML WILL WORK WHEN WE CLICK ROI BUTTON IN QUTATIONS SECTION.
+                THIS WORK IS DONE BY ALI JAWAD. -->
+            <div class="step-3 mb-3" *ngIf="step == 3">
+              <div class="mb-3">
+                <h3 class="step_heading">ROI:</h3>
+                <form [formGroup]="newForm" (ngSubmit)="onProceed()">
+                  <table class="table">
+                    <thead>
+                      <tr class="flex-roi-table">
+                        <th class="sub_heading" style="flex: 20;text-align: center;" scope="col">Geveldeel</th>
+                        <!-- <th style="flex: 20;" scope="col">North</th>
+                          <th style="flex: 20;" scope="col">South</th>
+                          <th style="flex: 20;" scope="col">East</th>
+                          <th style="flex: 20;" scope="col">West</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <div class="roi_table_tr" *ngFor="let ticket of t.controls;let i=index">
+  
+                        <tr class=" form-control">
+                          <th scope="row" class="roi_table_th" style="width: 20%;">{{arr[i]}}</th>
+                          <span [formGroup]="ticket" class="form-row flex-roi-table">
+                            <td class="td-control">
+                              <input id="north" *ngIf="i<2" class="form-control" type="text" 
+                              formControlName="north" placeholder="North">
+                              <input id="north" *ngIf="i>1" class="form-control" type="number" 
+                              formControlName="north" placeholder="North">
+                                <div *ngIf="ticket.controls['north'].errors?.required &&
+                                ticket.controls['north'].touched" class="required">Required</div>
+                            </td>
+                            <td class="td-control">
+                              <input class="form-control" *ngIf="i<2" id="south" type="text" 
+                              formControlName="south" placeholder="South">
+                              <input class="form-control" *ngIf="i>1" id="south" type="number" 
+                              formControlName="south" placeholder="South">
+                                <div *ngIf="ticket.controls['south'].errors?.required &&
+                                ticket.controls['south'].touched" class="required">Required</div>
+                            </td>
+                            <td class="td-control">
+                              <input id="east" *ngIf="i<2" type="text" class="form-control" 
+                              formControlName="east" placeholder="East">
+                              <input id="east" *ngIf="i>1" type="number" class="form-control" 
+                              formControlName="east" placeholder="East">
+                              <div *ngIf="ticket.controls['east'].errors?.required &&
+                                ticket.controls['east'].touched" class="required">Required</div>
+                            </td>
+                            <td class="td-control">
+                              <input id="west" *ngIf="i<2" type="text" class="form-control" 
+                              formControlName="west" placeholder="West">
+                              <input id="west" *ngIf="i>1" type="number" class="form-control" 
+                              formControlName="west" placeholder="West">
+                              <div *ngIf="ticket.controls['west'].errors?.required &&
+                                ticket.controls['west'].touched" class="required">Required</div>
+                            </td>
+                          </span>
+                        </tr>
+                      </div>
+                    </tbody>
+                    <button class="btn btn-outline-warning mx-2 margin" [disabled]="!newForm.valid" 
+                    type="submit">Proceed</button>
+                  </table>
+                </form>
+              </div>
+            </div>
+  
+            <!-- THIS HTML WILL WORK WHEN WE CLICK PROCEED BUTTON IN ROI SECTION.
+                THIS WORK IS DONE BY ALI JAWAD. -->
+            <div class="step-4 mb-3" *ngIf="step == 4">
+              <div class="mb-3">
+                <h2 class="step_heading">ROI RESULT:</h2>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="investPrice">Investeringsbedrag t.b.v. ROI</label>
+                  <!-- <input (keyup)="onKey($event)" [(ngModel)]="finalPrice" type="number"  -->
+                  <input [(ngModel)]="finalPrice" type="number" 
+                  class="form-control" id="finalPrice" name="finalPrice"/>
+                </div>
+                <div class="col-md-4">
+                  <button class="btn btn-outline-primary mx-2 saveFinal" 
+                  (click)="saveFinalPrice()">Save Final Price</button>
+                </div>
+                
+              </div>
+              
+              <div>
+                <div class="priceTable" *ngFor="let data of mainArray; let j=index">
+                  <h2 class="margin-set sub_heading mb-2">
+                    Verlaging / warmtetoetreding na installatie {{roiHeading[j]}}
+                  </h2>
+                  <div class="example-wrapper">
+                    <div style="margin-bottom: 5px; display: flex; justify-content: space-between;">
+                      <div class="grid-wrapper w-100" style="min-height: 200px;">
+                        <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-alpine"
+                          [rowData]="data" [getRowStyle]="getRowStyle" [columnDefs]="ROIcolumnDefs[j]"
+                          [defaultColDef]="priceDefaultCol" (gridReady)="onGridReady($event)"></ag-grid-angular>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="example-wrapper">
+                  <div style="margin-bottom: 5px; display: flex; justify-content: space-between;">
+                    <div class="grid-wrapper w-100" style="min-height: 300px;">
+                      <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-alpine"
+                        [rowData]="endResult" [getRowStyle]="getRowStyleResult" [columnDefs]="coldefs"
+                        [defaultColDef]="priceDefaultCol" (gridReady)="onGridReady($event)"></ag-grid-angular>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- <form [formGroup]="newForm" (ngSubmit)="onNorthSubmit()">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">
+                            Verlaging / warmtetoetreding na installatie {{roiHeading[0]}}
+                          </th>
+                        </tr>
+                        <tr class="flex-roi-table form-control">
+                          <th style="flex: 50; padding-left: 0%;" scope="col">   Huidige situatie   </th>
+                          <th style="flex: 25;" scope="col">   North   </th>
+                          <th style="flex: 25;" scope="col">   North   </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <div *ngFor="let nor of getNorthT.controls;let i=index">
+                          
+                        <tr *ngIf="i"></tr>
+                        <tr class=" form-control flex-roi-table">
+                          <th scope="row" style="flex: 33;">{{arr2[i]}}</th>
+                          <span [formGroup]="nor" class="form-row">
+                          <td class="td-control" style="flex: 50;">
+                            <input id="north" class="form-control" type="text" formControlName="north" [(ngModel)]="array[i][0]">
+                          </td>
+                          <td class="td-control" style="flex: 50;">
+                            <input class="form-control" id="facade" type="text" formControlName="facade" [(ngModel)]="array[i][1]">
+                          </td>
+                          </span>
+                        </tr>
+                      </div>
+                      </tbody>
+                      <button class="button btn btn-primary mx-2 margin" type="submit"[ngClass]="'btn-success'" 
+                      >North Save</button>
+                    </table>    
+                  </form> -->
+            </div>
+            <div class="step-5 mb-3" *ngIf="step == 5">
+              
+              <div>
+                <div class="container p-0">
+                  <div class="row">
+                    <div class="col-12 eiaLogo mb-3">
+                      <img src="../../../assets/images/EIA_logo.png">
+                    </div>
+                    <div class="col-12 mb-3">
+                      <h2 class="step_heading">EIA:</h2>
+                    </div>
+                    <div class="col eiaWrapper">
+                      <div class="eiaContainer">
+                        <h3 class="sub_heading">Energie Investeringsaftrek EIA</h3>
+                        <div class="ParaBox">
+                          <p> Wilt u fiscaal voordeel behalen en investeren in energiezuinige technieken en duurzame
+                            energie?</p>
+                          <p> Dat kan met de regeling Energie-investeringsaftrek (EIA).</p>
+                          <p> 2020 is er een budget van €
+                            147 miljoen.</p>
+                        </div>
+                        <div class="ParaBox">
+                          <p>Daarnaast leveren energiezuinige investeringen u ook een lagere energierekening op.</p>
+                          <p>Met deze regeling stimuleert het ministerie van Economische Zaken duurzaam ondernemen.</p>
+                        </div>
+                        <div class="ParaBox">
+                          <p>Via de Energie Investeringsaftrek (EIA) kunnen bedrijven fiscaal voordelig investeren in
+                            energiezuinige technieken en duurzame energie.</p>
+                          <p>U kunt 45% van de investeringskosten aftrekken van de fiscale winst, bovenop uw
+                            gebruikelijke afschrijving van 100% van het totaalproject
+                          </p>
+                        </div>
+                        <div class="ParaBox">
+                          <p>Uitleg: 100% + 45% = 145% Maximaal fiscaal aftrekbaar.</p>
+                        </div>
+  
+                      </div>
+                      <div class="eiaContainer">
+                        <h3 class="sub_heading">EIA levert u minimaal 11% netto voordeel op.</h3>
+                        <div class="ParaBox">
+                          <p>Sinds 1 september 2009 wordt glasfilm erkend als een energiebesparende toepassing.</p>
+                          <p>De installatie van glasfilm valt onder code <span class="paraBoldSpan">xxx (Deze code vindt u
+                              terug op onze eindfactuur)</span></p>
+                          <p>
+                            Onder vermindering van de warmte- dan wel koellast door: Beperking van ventilatie- of
+                            tochtverliezen.</p>
+  
+                        </div>
+  
+                        <div class="ParaBox">
+                          <p>Alle details over de EIA vindt op de website van Rijksdienst voor Ondernemend Nederland:</p>
+                          <p>
+                            <a href="#">http://www.rvo.nl/subsidies-regelingen/energie-investeringsaftrek-eia</a>
+                          </p>
+  
+                        </div>
+  
+                        <div class="ParaBox">
+                          <p>Het resultaat van aanvragen EIA is, u
+                            betaalt minder inkomstenbelasting of
+                            vennootschapsbelasting.</p>
+                          <p>Gemiddeld levert de EIA u
+                            <span class="numberSpan">€ {{finalPrice*0.11}}</span>
+                            belastingvoordeel op.
+                          </p>
+                          <p>Naast het belastingvoordeel levert het u
+                            ook een lagere energierekening op.</p>
+                        </div>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+  
+  
+            <a class="btn btn-outline-success mx-2" [ngClass]="{'previous-margin': step === 3}" 
+            (click)="priv()" *ngIf="step != 1">Previous</a>
+            <button class="btn btn-outline-primary mx-2" *ngIf="step == 2 && newPrice == true" 
+            (click)="savePrice()">Save</button>
+            <button type="submit" class="btn btn-outline-primary mx-2" *ngIf="step != 3 && step!=5" (click)="next()"
+            data-toggle="modal" data-target="#warnModal" data-dismiss="modal" [disabled]="newPrice">Next</button>
+            <button class="btn btn-outline-primary mx-2" *ngIf="step == 5" (click)="submit()">Submit</button>
+            
+  
+            <button (click)="onBtExport()" class="btn btn-outline-danger mb-0" *ngIf="step!=3"
+              style="margin-bottom: 5px; margin-left: 0.5rem; font-weight: bold;" data-toggle="modal" data-target="#warnModal" 
+              data-dismiss="modal">
+              Export to PDF
+            </button>
+  
+          </form>
+        </div>
+      
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+<!-- <div id="test6">
+  <h2 id="newww">CALCULATION:</h2>
+  <table id="calculation" style="width:80%;margin-left: auto;margin-right: auto; margin-top: 10%;" 
+  *ngIf="false">
+    <tr>
+      <th style="text-align: start;background: #e26c0a;">Glasspecificatie</th>
+      <th style="text-align: start;background: #e26c0a;">Filmtype </th>
+      <th style="background: #e26c0a;">Number</th>
+      <th style="background: #e26c0a;">W</th>
+      <th style="background: #e26c0a;width: 10%;"></th>
+      <th style="text-align: start;background: #e26c0a;">H</th>
+      <th style="background: #e26c0a;"></th>
+      <th style="background: #e26c0a;"></th>
+      <th style="text-align: end;background: #e26c0a;">Oppervlakte</th>
+    </tr>
+    <span *ngFor="let side of sidesTables; let i=index">
+          <tr>
+              <th style="background: #fce9da;text-align: start;">{{side.title}}</th>
+              <th style="text-align: start;background: #fce9da;"> </th>
+              <th style="background: #fce9da;"></th>
+              <th style="background: #fce9da;"></th>
+              <th style="background: #fce9da;width: 10%;"></th>
+              <th style="text-align: start;background: #fce9da;"></th>
+              <th style="background: #fce9da;"></th>
+              <th style="background: #fce9da;"></th>
+              <th style="text-align: end;background: #fce9da;"></th>
+          </tr>
+          <span *ngFor="let row of side.rowData; let j=index">
+              <tr>
+                  <td>{{row.classification}}</td>
+                  <td>{{row.Filmtype}}</td>
+                  <td style="text-align: center;">{{row.Number}}</td>
+                  <td style="text-align: center;">{{row.W}}</td>
+                  <td style="text-align: center;">x</td>
+                  <td style="text-align: start;">{{row.H}}</td>
+                  <td style="text-align: center;">{{row.Options}}</td>
+                  <td style="text-align: center;">=</td>
+                  <td style="text-align: end;">{{row.Oppervlakte}}</td>
+      
+              </tr>
+          </span>
+      </span>
+    <tr>
+      <th style="text-align: start;background: #e26c0a;">Glasspecificatie</th>
+      <th style="text-align: start;background: #e26c0a;">Filmtype </th>
+      <th style="background: #e26c0a;">Number</th>
+      <th style="background: #e26c0a;">W</th>
+      <th style="background: #e26c0a;width: 10%;"></th>
+      <th style="text-align: start;background: #e26c0a;">H</th>
+      <th style="background: #e26c0a;"></th>
+      <th style="background: #e26c0a;"></th>
+      <th style="text-align: end;background: #e26c0a;">Oppervlakte</th>
+    </tr>
+  </table>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+      
+
+      
+
+
+<!-- <router-outlet></router-outlet> -->
+<!-- Modal -->

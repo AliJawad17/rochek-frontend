@@ -1,0 +1,13 @@
+.AdNewPakg{
+    margin-bottom: 5px !important;
+}
+
+.margin{
+    margin-right: 15px;
+}
+
+.icons{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+}

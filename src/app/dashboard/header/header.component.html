@@ -1,0 +1,21 @@
+<header class="header" id="header">
+    
+    <div class="header_img">
+        <!-- <img src="https://lh3.googleusercontent.com/ogw/ADGmqu-V5q3Mhz_F-PfgK-Ll2TMIp0P5XUPaLgXSgqLiSg=s83-c-mo" alt="" />  -->
+        
+
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">{{name}}</button>
+        <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" 
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+        <div class="dropdown-content">
+        <a (click)="logout()" href="#">Sign out</a>
+        <!-- <a href="#">Link 2</a>
+        <a href="#">Link 3</a> -->
+        </div>
+      </div>
+    <!-- <div><h3 class="headerProfielName">{{name}}</h3></div> -->
+</header>

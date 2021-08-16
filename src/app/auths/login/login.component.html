@@ -1,0 +1,28 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+  
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="../../../assets/images/Logo Black.png" id="icon" class="auth_log" alt="User Icon" />
+      </div>
+  
+      <!-- Login Form -->
+      <form [formGroup]="fg" (ngSubmit)="onSubmit()">
+        <input type="text" id="email" class="fadeIn second" formControlName="email" placeholder="Email">
+        <input type="password" id="password" class="fadeIn third" formControlName="password" placeholder="password">
+        <!-- <input type="submit" class="fadeIn fourth d-none" value="Log In"> -->
+        <br>
+        <p *ngIf="loginFailed" style="color: red;margin-top: 5px;">Incorrect Email or Password</p>
+        <button type="submit" class="btn btn_cstm_main fadeIn fourth">login
+        </button>
+      </form>
+  
+      <!-- Remind Passowrd -->
+      <div id="formFooter" class="formFooter d-none">
+        <a class="underlineHover" href="#">Forgot Password?</a>
+        <!-- <a class="underlineHover" [routerLink]="['../signup']" >Create New Account</a> -->
+      </div>
+  
+    </div>
+  </div>

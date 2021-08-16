@@ -1,0 +1,185 @@
+label{
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 8px !important;
+    letter-spacing: 1px;
+}
+
+.flex-roi-table{
+    display: flex;
+    /* margin-bottom: 5px; */
+}
+.flex{
+    width: 33;
+}
+
+.margin{
+    margin-top: 10px;
+}
+
+.margin-set{
+    margin-top: 20px; 
+    margin-bottom: 0px;  
+}
+
+.td-control{
+    flex-grow: 1;
+    padding-right: 10px;
+}
+
+.table{
+    margin-bottom: 10px;
+}
+.btn_add_option{
+    background: #f86c35;
+    color:white;
+    border: 1px solid #f86c35;
+    
+}
+.btn_add_option:hover{
+    background: #e0764d;
+    
+}
+.btn-check:focus+.btn, .btn:focus {
+    outline: 0;
+    box-shadow: none !important;
+}
+.quatation_heading{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.my-shaded-effect{
+    background: #e0764d;
+    font-weight: bold;
+}
+.step_heading{
+    font-size: 24px;
+    color:#f86c35;
+    border-bottom: 2px solid black;
+    width: fit-content;
+}
+.sub_heading{
+    font-size: 16px;
+    color:#f86c35;
+}
+.form-control:focus {
+    
+    border-color: #f86c35;
+    outline: 0;
+    box-shadow: none !important
+}
+hr{
+    color: #f86c35;
+    opacity: 1;
+
+}
+.btn-outline-info{
+    color: #f86c35;
+    border-color: #f86c35;
+}
+
+.btn-outline-info:hover{
+    color: #fff;
+    border-color: #f86c35;
+    background: #f86c35;
+}
+.roi_table_th{
+    font-size: 12px;
+    line-height: 24px;
+    letter-spacing: 1px;
+    
+}
+.roi_table_tr{
+    margin:8px auto;
+}
+.ParaBox{
+    margin-bottom: 24px;
+}
+.ParaBox p{
+ margin: 0;
+ font-size: 13px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: black;
+}
+.eiaContainer{
+    margin-bottom: 24px;
+}
+.eiaContainer h2{
+margin-bottom: 16px;
+}
+.eiaLogo img{
+    max-width: 250px;
+}
+.eiaLogo{
+    text-align: center;
+}
+
+.required{
+    font-size: 15px;
+    margin-top: 10px;
+    margin-left: 10px;
+    color: red;;
+}
+
+/* option{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    padding: .25rem 1rem;
+} */
+
+.signature{
+    background-color: grey;
+}
+
+.layout-button{
+    margin-bottom: 10px;
+    /* float: right; */
+    margin-left: 80%;
+    width: 20%;
+}
+
+@media screen and (max-width: 900px) {
+    .layout-button{
+        margin-bottom: 10px;
+        /* float: right; */
+        margin-left: 75%;
+        width: 25%;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    .layout-button{
+        margin-bottom: 10px;
+        /* float: right; */
+        margin-left: 70%;
+        width: 30%;
+    }
+}
+
+.previous-margin{
+    margin-top: -96px;
+    margin-left: 105px !important;
+}
+
+
+.saveFinal{
+    margin-top: 29px;
+}
+
+.setMargin{
+    margin-top: -20px;
+}
+
+
+
+.tablePrint{
+    width: 100%;
+    /* margin-left: 30px;
+    margin-right: 30px; */
+}
+.mainRow{
+    background-color: #e26c0a;
+}

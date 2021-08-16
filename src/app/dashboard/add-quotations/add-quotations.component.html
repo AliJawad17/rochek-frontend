@@ -1,0 +1,72 @@
+
+<div class="d-flex align-items-center justify-content-between TittleRow mb-4">
+    <div class="AddNewUser">
+        <h1 class="AdNewPakg mb-3">Add New Quotations</h1>
+        <!-- <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, doloremque.</p> -->
+    </div>
+    <div class="PlusIcnCol">
+        <a [routerLink]="['/dashboard/quotations']" (click)="newQuotation()" style="color: white;">
+            <i class='fa fa-plus'></i>
+        </a>
+        
+    </div>
+    
+</div>
+<div class="TittleRow">
+      
+    <table class="table table-striped table-hover text-center">
+      <thead>
+        <tr>
+          <th scope="col">Sr#</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Last edited</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of sidesTables; let i=index">
+        <tr>
+          <th scope="row">{{i+1}}</th>
+          <td>{{item.fullname}}</td>
+          <td>06/07/2021</td>
+          <td>
+                <div class="d-flex justify-content-center align-items-center">
+                
+                    <!-- <button class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mx-2">
+                      <i class="fa fa-eye" (click)="viewCustomer(item)" style="font-size: 20px;"></i></button> -->
+                    <button class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mx-2">
+                      <i class="fa fa-pencil-square-o" (click)="updateCustomer(item)" 
+                      style="font-size: 20px;"></i></button>
+                    <button class="btn btn-danger btn-sm d-flex justify-content-center align-items-center mx-2">
+                      <i class="fa fa-trash" (click)="deleteCustomer(item._id)" style="font-size: 20px;"></i></button>
+                </div>
+            </td>
+        </tr>
+        <!-- <tr>
+          <th scope="row">2</th>
+          <td>Mark</td>
+          <td>05/07/2021</td>
+          <td>
+            <div class="d-flex justify-content-center align-items-center">
+                
+                <button class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mx-2"><i class="fa fa-eye" style="font-size: 20px;"></i></button>
+                <button class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mx-2"><i class="fa fa-pencil-square-o" style="font-size: 20px;"></i></button>
+                <button class="btn btn-danger btn-sm d-flex justify-content-center align-items-center mx-2"><i class="fa fa-trash" style="font-size: 20px;"></i></button>
+            </div>    
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Mark</td>
+          <td>Otto@info.com</td>
+          <td>
+            <div class="d-flex justify-content-center align-items-center">
+                
+                <button class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mx-2"><i class="fa fa-eye" style="font-size: 20px;"></i></button>
+                <button class="btn btn-primary btn-sm d-flex justify-content-center align-items-center mx-2"><i class="fa fa-pencil-square-o" style="font-size: 20px;"></i></button>
+                <button class="btn btn-danger btn-sm d-flex justify-content-center align-items-center mx-2"><i class="fa fa-trash" style="font-size: 20px;"></i></button>
+            </div>
+          </td>
+          </tr> -->
+      </tbody>
+    </table>
+  </div>
