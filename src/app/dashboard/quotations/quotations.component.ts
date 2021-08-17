@@ -325,7 +325,7 @@ export class QuotationsComponent implements OnInit {
     //   }
     //   console.log('sharing dtaa', this.data);
     // })
-    console.log('name', this.customerName, this.customerId);
+    // console.log('name', this.customerName, this.customerId);
     if(this.customerName == '' || this.customerName == null){
       this.step = 0;
       this.disableCustomer = false;
@@ -407,12 +407,12 @@ export class QuotationsComponent implements OnInit {
   drawStart() {
     this.newPrice = true;
     let url = this.signaturePad.toDataURL("image/png");
-    console.log('begin drawing', url);
+    // console.log('begin drawing', url);
   }
   addCustomer(){
     
     this.customerService.create({fullname: this.customerName}).subscribe(res=>{
-      console.log('customer created', res);
+      // console.log('customer created', res);
       localStorage.setItem('customerName', this.customerName);
       localStorage.setItem('customerId', res['result']['_id']);
       this.customerId = res['result']['_id'];
@@ -421,7 +421,7 @@ export class QuotationsComponent implements OnInit {
   }
 
   getCustomerData(){
-    console.log('found cutomer called');
+    // console.log('found cutomer called');
     this.customerService.find(this.customerId).subscribe( (res) =>
     {
       this.currentCustomer = res['result'][0];
@@ -451,7 +451,7 @@ export class QuotationsComponent implements OnInit {
     this.priceService.findAll(this.customerId).subscribe(res=>{
       let arr = [];
       for(let i=0; i<res['result'].length; i++){
-        console.log('in price data');
+        // console.log('in price data');
         let a = [];
         a[0] = res['result'][i]['T80'];
         a[1] = res['result'][i]['V14'];
@@ -468,13 +468,13 @@ export class QuotationsComponent implements OnInit {
         this.priceExisted = true;
       }
       if(this.updatePrice == true) {
-        console.log('options table length', this.optionsTable.length);
+        // console.log('options table length', this.optionsTable.length);
         for(let i=0;i<this.optionsTable.length;i++){
-          console.log('update price called outside', this.selectedTitle, this.optionsTable[i].title);
+          // console.log('update price called outside', this.selectedTitle, this.optionsTable[i].title);
           if (this.selectedTitle == this.optionsTable[i].title){
             this.finalPrice = this.optionsTable[i].rowData[5]['Sum'];
             this.currentCustomer['finalPrice'] = this.finalPrice;
-            console.log('update price called', this.currentCustomer);
+            // console.log('update price called', this.currentCustomer);
             this.customerService.update(this.customerId, this.currentCustomer).subscribe(resp=>{
               this.updatePrice = false;
             })
@@ -505,14 +505,14 @@ export class QuotationsComponent implements OnInit {
       this.sidesTables[1].rowData = res['result'];
       this.directionSum.west = this.calculateOppervlakte(this.sidesTables[1].rowData, 1);
     })
-    console.log('side table', this.sidesTables);
+    // console.log('side table', this.sidesTables);
   }
 
   getROIData(){
     this.roiService.find(this.customerId).subscribe((res)=>{
       if(res['results']){
         this.roiData = res['results'];
-        console.log(res);
+        // console.log(res);
         let obj = {north: this.roiData[0], south: this.roiData[1], east: this.roiData[2], west:this.roiData[3]};
         this.calculate(obj);
       }
@@ -569,7 +569,7 @@ export class QuotationsComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
   }
   async onBtExport() {
-    console.log('step called', this.optionsTable);
+    // console.log('step called', this.optionsTable);
     let data;
     let sideData=[];
     let pdfPrint = false;
@@ -593,7 +593,7 @@ export class QuotationsComponent implements OnInit {
       }
       // data = {step: this.step, data: this.sidesTables}
     }else if (this.step == 2){
-      console.log('optionssssssss', this.optionsTable);
+      // console.log('optionssssssss', this.optionsTable);
       if(this.optionsTable.length>0 && this.priceExisted){
         let priceData = [];
         for(let i=0;i<this.optionsTable.length;i++){
@@ -640,7 +640,7 @@ export class QuotationsComponent implements OnInit {
       // var base64 = this.getBase64Image(document.getElementById("logoImage"));
       if(this.finalPrice>0){
         
-        console.log('entered in step 5');
+        // console.log('entered in step 5');
         data = {step: this.step, data: this.finalPrice*0.11, customerName: this.customerName};
         pdfPrint = true;
       }else{
@@ -655,12 +655,12 @@ export class QuotationsComponent implements OnInit {
       // if (this.step == 5){
       //   data.url = base64;
       // }
-      console.log('in pdf print', this.customerId, data);
+      // console.log('in pdf print', this.customerId, data);
       this.customerService.createPdf(this.customerId, data).subscribe(res=>{
-        console.log(res);
+        // console.log(res);
         let url = 'http://localhost:3000/'+res['fileName'];
         // let url = 'public/'+res['fileName'];
-        console.log(url);
+        // console.log(url);
         window.open(url , '_blank');
         pdfPrint = false;
       })
@@ -724,7 +724,7 @@ export class QuotationsComponent implements OnInit {
 
     let object = {step: 5, data:this.finalPrice*0.11};
     this.customerService.createPdf(this.customerId, object).subscribe((res)=>{
-      console.log('submit response', res);
+      // console.log('submit response', res);
     })
     let count = 0;
     let checkROI = true;
@@ -742,7 +742,7 @@ export class QuotationsComponent implements OnInit {
     }
 
 
-    console.log('entered in submit', this.finalPrice);
+    // console.log('entered in submit', this.finalPrice);
     if (this.finalPrice==0){
       this.showAlert = true;
       this.alertMessage = 'Please Enter Correct Price'
@@ -774,7 +774,8 @@ export class QuotationsComponent implements OnInit {
     // this.step = this.step + 1
   }
   priv() {
-    this.step = this.step - 1
+    this.step = this.step - 1;
+    this.setCheckedValue(this.step);
   }
   setCheckedValue(step){
     if(step == 1){
@@ -785,6 +786,13 @@ export class QuotationsComponent implements OnInit {
           this.value[i]=false;
         }
       }
+    }else if(this.step==2){
+      this.showSelectedTitle = true;
+    }else if(this.step == 4){
+      this.setEndGrid(this.fSum, this.dSum, this.f19);
+      this.showSelectedTitle = false;
+    }else{
+      this.showSelectedTitle = false;
     }
   }
   steps(crntTarget: any, val: any) {
@@ -793,13 +801,13 @@ export class QuotationsComponent implements OnInit {
     if (this.step == val) {
       crntTarget.target.classList.add('actveStep')
     }
-    if(this.step==2){
-      // for(let i=0;i<this.optionsTable.length;i++){
-      //   // if(this.optionsTable[i].title == title){
-      //     this.optionsTable[i]['priceObj'].data.refreshCells();
-      //   // }
-      // }
-    }
+    // if(this.step==2){
+    //   // console.log('price called', this.selectedTitle, this.showSelectedTitle);
+    //   this.showSelectedTitle = true;
+    // }else if(this.step == 4){
+    //   this.setEndGrid(this.fSum, this.dSum, this.f19);
+    //   this.showSelectedTitle = false;
+    // }
   }
 
   checkboxChecked(event , value){
@@ -852,17 +860,17 @@ export class QuotationsComponent implements OnInit {
   bulkInsert(sides, index){
     
     let entries;
-    console.log('outside', this.calculationForm.value.totalEntries);
+    // console.log('outside', this.calculationForm.value.totalEntries);
     if(this.minOpperlakte>0  ){
       if(this.singleEntry || this.calculationForm.value.totalEntries==null || 
         this.calculationForm.value.totalEntries==''){
         entries = 1;
-        console.log('2single', entries);
+        // console.log('2single', entries);
       }else {
         entries = this.calculationForm.value.totalEntries;
-        console.log(' multiple single', entries, this.calculationForm.value.totalEntries);
+        // console.log(' multiple single', entries, this.calculationForm.value.totalEntries);
       }
-      console.log('entries', entries, this.calculationForm.value.totalEntries);
+      // console.log('entries', entries, this.calculationForm.value.totalEntries);
       let formula = this.calculationForm.value.height*this.calculationForm.value.weight;
       if(formula<this.minOpperlakte){
         formula = this.calculationForm.value.number*this.minOpperlakte;
@@ -893,9 +901,9 @@ export class QuotationsComponent implements OnInit {
         this.alertMessage = 'PLEASE ENTER REQUIRED FIELDS PROPERLY.';
       }else{
         this.showAlert = false;
-        console.log('newwwwww', this.newItems);
+        // console.log('newwwwww', this.newItems);
         this.quotationsService.create(this.newItems, this.title).subscribe(res=>{
-          console.log('ressssssss', res);
+          // console.log('ressssssss', res);
         })
         this.sidesTables[index]['tableGripObj'].data.applyTransaction({
           add: this.newItems, 
@@ -906,7 +914,7 @@ export class QuotationsComponent implements OnInit {
         // console.log(this.sidesTables, this.directionSum);
         this.sidesTables[index]['tableGripObj'].data.refreshCells();
         this.updatePriceTable(index, sum, oldSum);
-        console.log('options', this.sidesTables[index]['tableGripObj'].data);
+        // console.log('options', this.sidesTables[index]['tableGripObj'].data);
       }
     }else{
       this.showAlert = true;
@@ -957,7 +965,7 @@ export class QuotationsComponent implements OnInit {
     }
 
     // THIS LOOP IS CALCULATING AND MANAGING DATA FOR ROI RESULT GRIS
-    console.log('start main array',  tArray)
+    // console.log('start main array',  tArray)
     for (var i=0;i<this.mainArray.length;i++) {
 
       this.roiHeading[i] = tArray[i]['filmtype'];
@@ -1091,7 +1099,7 @@ export class QuotationsComponent implements OnInit {
     this.fSum = fSum;
     this.dSum = dSum;
     this.f19 = f19;
-    console.log('main array', this.mainArray);
+    // console.log('main array', this.mainArray);
     // THIS IS GIVING CSS PROPERTIES TO SOME ROWS OF THE GRID
     this.setGridStyle();
     this.setEndGrid(fSum, dSum, f19);
@@ -1155,7 +1163,7 @@ export class QuotationsComponent implements OnInit {
     let val1 = val*((dSum/f19)+(fSum/f19));
     this.endResult[2] = {title:'Besparing per dag', value:'€ '+(Math.round(val1 * 10000) / 10000).toFixed(4)};
     let val2 = val1*183;
-    console.log('val1', val1, val2, fSum, dSum, f19);
+    // console.log('val1', val1, val2, fSum, dSum, f19);
     this.endResult[3] = {title:'Besparing per jaar', value:'€ '+(Math.round(val2 * 10000) / 10000).toFixed(4)};
     this.endResult[4] = {title:'Investering ', value:this.finalPrice};
     // console.log(this.gridApi[4]);
@@ -1180,7 +1188,7 @@ export class QuotationsComponent implements OnInit {
     this.setEndGrid(this.fSum, this.dSum, this.f19);
     this.currentCustomer['finalPrice'] = this.finalPrice;
     this.customerService.update(this.customerId, this.currentCustomer).subscribe(res=>{
-      console.log('sutomer res', res['resp']['finalPrice']);
+      // console.log('sutomer res', res['resp']['finalPrice']);
       // this.finalPrice =res['resp']['finalPrice'];
     })
     
@@ -1244,7 +1252,7 @@ export class QuotationsComponent implements OnInit {
     const upperCaseAlp = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
     if(this.isEastChecked && this.sidesTables[0].rowData.length>0){
       msg.push("East");
-      console.log('EAST DATA', this.sidesTables[0]);
+      // console.log('EAST DATA', this.sidesTables[0]);
       opperValue[0] = opperValue[0] + this.directionSum.east;
     }else if(this.isEastChecked && this.sidesTables[0].rowData.length==0){
       this.showAlert = true;
@@ -1253,10 +1261,10 @@ export class QuotationsComponent implements OnInit {
     }
     if(this.isNorthChecked && this.sidesTables[2].rowData.length>0){
       msg.push("North");
-      console.log('North DATA', this.sidesTables[2]);
+      // console.log('North DATA', this.sidesTables[2]);
       opperValue[0] = opperValue[0] + this.directionSum.north;
     }else if(this.isNorthChecked && this.sidesTables[2].rowData.length==0){
-      console.log('called in north ');
+      // console.log('called in north ');
       this.showAlert = true;
       this.alertMessage = 'PLEASE ENTER NORTH DATA IN CALCULATION';
       msg = [];
@@ -1265,10 +1273,10 @@ export class QuotationsComponent implements OnInit {
 
     if(this.isWestChecked && this.sidesTables[1].rowData.length>0){
       msg.push("West");
-      console.log('West DATA', this.sidesTables[1]);
+      // console.log('West DATA', this.sidesTables[1]);
       opperValue[0] = opperValue[0] + this.directionSum.west;
     }else if(this.isWestChecked && this.sidesTables[1].rowData.length==0){
-      console.log('called in north ');
+      // console.log('called in north ');
       this.showAlert = true;
       this.alertMessage = 'PLEASE ENTER West DATA IN CALCULATION';
       msg = [];
@@ -1276,10 +1284,10 @@ export class QuotationsComponent implements OnInit {
     }
     if(this.isSouthChecked && this.sidesTables[3].rowData.length>0){
       msg.push("South");
-      console.log('South DATA', this.sidesTables[3]);
+      // console.log('South DATA', this.sidesTables[3]);
       opperValue[0] = opperValue[0] + this.directionSum.south;
     }else if(this.isSouthChecked && this.sidesTables[3].rowData.length==0){
-      console.log('called in north ');
+      // console.log('called in north ');
       this.showAlert = true;
       this.alertMessage = 'PLEASE ENTER SOUTH DATA IN CALCULATION';
       msg = [];
@@ -1299,7 +1307,7 @@ export class QuotationsComponent implements OnInit {
     }
     
     if(msg.length == 0){
-      console.log('no direction checked');
+      // console.log('no direction checked');
       this.alertMessage = 'PLEASE CHECK DIRECTION CAREFULLY';
       this.showAlert = true;
     }else{
@@ -1339,9 +1347,9 @@ export class QuotationsComponent implements OnInit {
     for(let i=0; i<this.titleArray.length; i++) {
       let str = this.titleArray[i]['title'];
       let splitted = str.split(": ", 2);
-      console.log('checking', title, splitted);
+      // console.log('checking', title, splitted);
       if(title == splitted[1]) {
-        console.log('sending false', title, splitted[1]);
+        // console.log('sending false', title, splitted[1]);
         return false;
       }
     }
@@ -1367,7 +1375,7 @@ export class QuotationsComponent implements OnInit {
       title: title,
       option: option
     };
-    console.log(optionObject.rowData);
+    // console.log(optionObject.rowData);
     return optionObject;
   }
 
@@ -1455,19 +1463,17 @@ export class QuotationsComponent implements OnInit {
       
     }else if(this.step == 4){
 
-
-      
       if (this.finalPrice==0){
         this.showAlert = true;
         this.alertMessage = 'Please Enter Correct Price'
       }else{
         this.showAlert=false;
-        console.log('entered in else', this.obj);
+        // console.log('entered in else', this.obj);
         let roi = {obj:this.obj, customerId: this.customerId};
-        console.log('entered in next 4', roi);
+        // console.log('entered in next 4', roi);
         //TODO CHECKK WHETHER OBJ HAS CORRRECT DATA OR NOT???
         this.roiService.create(roi).subscribe((res)=>{
-          console.log('returning response of roi create', res);
+          // console.log('returning response of roi create', res);
         })
         let Customer = {
           _id: this.customerId,
@@ -1477,7 +1483,7 @@ export class QuotationsComponent implements OnInit {
           selectedPrice: this.selectedPrice
         };
         this.customerService.update(this.customerId, Customer).subscribe(async (resp) =>{
-          console.log('customer update response', resp);
+          // console.log('customer update response', resp);
         });
       }
 
@@ -1526,7 +1532,7 @@ export class QuotationsComponent implements OnInit {
     itemsToUpdate.push(this.optionsTable[index].rowData[event.rowIndex]);
     itemsToUpdate.push(this.optionsTable[index].rowData[5]);
     this.optionsTable[index]['priceObj'].data.updateRowData({ update: itemsToUpdate });
-    console.log(this.optionsTable[index]);
+    // console.log(this.optionsTable[index]);
     for(let j=0; j<this.titleArray.length; j++) {
       if(this.optionsTable[index].title == this.titleArray[j].title){
         this.titleArray[j].price = this.optionsTable[index].rowData[5].Sum;
@@ -1546,14 +1552,14 @@ export class QuotationsComponent implements OnInit {
   onRemoveSelected(index, title) {
 
     var selectedData = this.sidesTables[index]['tableGripObj'].data.getSelectedRows();
-    console.log('select', selectedData, title);
+    // console.log('select', selectedData, title);
     var res = this.sidesTables[index]['tableGripObj'].data.applyTransaction({ remove: selectedData });
     for(let i=0; i<this.sidesTables[index].rowData.length; i++){
       if(this.sidesTables[index].rowData[i] == selectedData[0]){
         let id = this.sidesTables[index].rowData[i]._id;
         // let cal = this.sidesTables[index].rowData[i].Oppervlakte;
         
-        console.log('delete id', this.sidesTables[index].rowData);
+        // console.log('delete id', this.sidesTables[index].rowData);
         this.sidesTables[index].rowData.splice(i,1);
         this.quotationsService.delete(title, id).subscribe(res=>{
         })
@@ -1593,7 +1599,7 @@ export class QuotationsComponent implements OnInit {
       this.updatePrice = true;
       this.getPriceData();
       
-      console.log('finding title', this.optionsTable);
+      // console.log('finding title', this.optionsTable);
     })
   }
 
@@ -1618,7 +1624,7 @@ export class QuotationsComponent implements OnInit {
       if(this.titleArray[i].title == this.selectedTitle){
         this.selectedPrice = this.titleArray[i].price;
         this.finalPrice = this.selectedPrice;
-        console.log('title is changed', this.selectedTitle, this.selectedPrice, this.finalPrice);
+        // console.log('title is changed', this.selectedTitle, this.selectedPrice, this.finalPrice);
         this.newPrice = true
       }
     }
@@ -1629,17 +1635,17 @@ export class QuotationsComponent implements OnInit {
   }
 
   createPdfData(){
-    console.log('calculation', this.sidesTables);
-    console.log('price', this.optionsTable);
-    console.log('roi data', this.roiData);
+    // console.log('calculation', this.sidesTables);
+    // console.log('price', this.optionsTable);
+    // console.log('roi data', this.roiData);
 
   }
 
   deleteOption(index){
-    console.log('price', this.optionsTable[index]);
+    // console.log('price', this.optionsTable[index]);
     this.priceService.delete({title: this.optionsTable[index]['title'], 
     option: this.optionsTable[index]['option']}, this.customerId).subscribe(res=>{
-      console.log('delete response', res);
+      // console.log('delete response', res);
       if(this.optionsTable[index]['title'] == this.selectedTitle){
         this.selectedTitle = '';
         this.currentCustomer['selectedOption'] = this.selectedTitle;
@@ -1659,11 +1665,11 @@ export class QuotationsComponent implements OnInit {
   }
 
   async savePrice(){
-    console.log('entered in save price function', this.selectedTitle);
+    // console.log('entered in save price function', this.selectedTitle);
     if(this.selectedTitle != ''){
       this.showAlert = false;
       let data = [];
-      console.log('entered in next function', this.selectedTitle);
+      // console.log('entered in next function', this.selectedTitle);
       let rowDataLength = this.optionsTable[0].rowData.length;
       for(let i=0; i<this.optionsTable.length; i++){
         let obj = {};
@@ -1678,9 +1684,9 @@ export class QuotationsComponent implements OnInit {
         }
         data.push(obj);
       }
-      console.log('after processing loop', this.finalPrice);
+      // console.log('after processing loop', this.finalPrice);
       await this.priceService.create(data).subscribe(async (res) =>{
-        console.log('response in price sevice', res);
+        // console.log('response in price sevice', res);
         this.priceExisted = true;
         this.getAllData();
         let customer = {
@@ -1691,23 +1697,22 @@ export class QuotationsComponent implements OnInit {
           signature: this.dataURL
         };
         await this.customerService.update(this.customerId, customer).subscribe((response) => {
-          console.log('response in customer update sevice', response, customer);
+          // console.log('response in customer update sevice', response, customer);
           this.newPrice = false;
+          if (this.dataURL){
+            this.signatureImage = true;
+          }
           // this.step = 3;
         })
         this.newPrice = false;
         // this.step = 3;
       })
     }else{
-      console.log('entered in else function', this.selectedTitle);
+      // console.log('entered in else function', this.selectedTitle);
       this.alertMessage = 'Please Select any Option ';
       this.showAlert = true;
     }
   }
-  // showImage(data) {
-  //   console.log('show image called');
-  //   this.signatureImage = data;
-  // }
 
 }
 //END
