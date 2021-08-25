@@ -576,17 +576,28 @@ export class QuotationsComponent implements OnInit {
     let dataCount = 0, eiaLogoURL;
     this.showAlert = false;
     if(this.step == 1){
+      let totalOpp = 0;
+      let totalNum = 0;
       for(let i=0;i<this.sidesTables.length;i++){
         if(this.sidesTables[i].rowData.length > 0){
           dataCount++;
-          let obj1 = {title: this.sidesTables[i]['title'], rowData: this.sidesTables[i].rowData};
+          let opp = 0;
+          let num = 0;
+          for(let j=0;j<this.sidesTables[i].rowData.length;j++) {
+            opp=opp+this.sidesTables[i].rowData[j].Oppervlakte;
+            num=num+this.sidesTables[i].rowData[j].Number;
+          }
+          let obj1 = {title: this.sidesTables[i]['title'], rowData: this.sidesTables[i].rowData, sum: opp, num: num};
           sideData.push(obj1);
+          totalNum = totalNum + num;
+          totalOpp = totalOpp + opp;
         }
       }
       if(dataCount>0){
         pdfPrint = true;
-        data = {step: this.step, data: sideData, 
+        data = {step: this.step, data: sideData, totalNum: totalNum, totalOpp: totalOpp,
           customerName: this.customerName};
+          console.log('calculation pdf data', data);
       }else{
         this.showAlert = true;
         this.alertMessage = 'PLEASE ENTER CALCULATION DATA!'
@@ -884,7 +895,8 @@ export class QuotationsComponent implements OnInit {
         H:this.calculationForm.value.height,
         W:this.calculationForm.value.weight,
         Options:'',
-        Oppervlakte:formula
+        Oppervlakte: formula
+        // Oppervlakte:(Math.round(formula * 1000) / 1000).toFixed(3)
       }
       for(var i=0;i<this.sidesTables.length;i++){
         if(this.sidesTables[i] == sides){
